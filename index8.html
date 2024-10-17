@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>✡Anlominus✡</title>
+  <link rel="icon" href="https://fav.farm/🌀" />
+
+  <link rel="stylesheet" href="./style.css">
+<style>
+  body {
+  background-color: rgb(1, 10, 24);
+  background-repeat: repeat;
+  color: #5300ff;
+  font-family: 'Oswald', sans-serif;
+  letter-spacing: .2rem;
+  margin: 0;
+  overflow: hidden;
+  perspective: 1000px;
+  text-transform: uppercase;
+}
+.site-wrap {
+  transition: transform 0.6s cubic-bezier(0.55, 0, 0.1, 1);
+}
+.site-wrap.show-all {
+  transform: rotateY(-15deg) scale(0.2);
+}
+.panel-wrap {
+  height: 100vh;
+  width: 100vw;
+}
+h1 {
+  font-size: 10vmin;
+  margin: 0;
+}
+.panel-wrap {
+  perspective: 2000px;
+  transition: transform 0.3s cubic-bezier(0.55, 0, 0.1, 1);
+}
+.panel-wrap.animate--shrink,
+.panel-wrap.animate--tilt,
+.panel-wrap.animate--tilt2 {
+  transition: transform 0.3s cubic-bezier(0.55, 0, 0.1, 1) 0.3s;
+}
+.panel {
+  height: 100vh;
+  position: absolute;
+  transition: transform 0.3s cubic-bezier(0.55, 0, 0.1, 1);
+  width: 100vw;
+  will-change: transform;
+}
+.panel:before {
+  background-color: transparent;
+  bottom: 0;
+  content: "";
+  left: 0;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: background-color 0.3s cubic-bezier(0.55, 0, 0.1, 1);
+  z-index: 2;
+}
+.show-all .panel:before {
+  pointer-events: all;
+}
+.show-all .panel:hover:before {
+  background-color: rgba(83, 0, 255, 0.06);
+  cursor: pointer;
+  box-shadow: 0 0 10px 10px #3e219f4f,0 0 12px 12px #3e219f4f;
+}
+.animate--shrink.animate .panel {
+  transform: scale(0.9);
+}
+.animate--tilt.animate .panel {
+  transform: scale(0.6) rotateY(-25deg);
+}
+.animate--tilt2.animate .panel {
+  transform: scale(0.8) rotateX(25deg);
+}
+.panel h1 {
+  font-size: 7.5vmin;
+  cursor: default;
+  left: 50%;
+  line-height: 1;
+  position: absolute;
+  text-align: center;
+  top: 10.5%;
+  transform: translateX(-50%) translateY(-50%);
+  user-select: none;
+  text-shadow: 0px 0px 1.9vmin #010b18,0px 0px 9.9vmin blue;
+}.panel h1:hover {text-shadow: 0px 0px 1.9vmin #010b18db,0px 10px 9.9vmin #5300ff;}
+.panel[data-x-pos="-2"] {
+  left: -200%;
+}
+.panel[data-x-pos="-1"] {
+  left: -100%;
+}
+.panel[data-x-pos="1"] {
+  left: 100%;
+}
+.panel[data-x-pos="2"] {
+  left: 200%;
+}
+.panel[data-y-pos="-2"] {
+  top: 200%;
+}
+.panel[data-y-pos="-1"] {
+  top: 100%;
+}
+.panel[data-y-pos="1"] {
+  top: -100%;
+}
+.panel[data-y-pos="2"] {
+  top: -200%;
+}
+.panel__zoom {
+  cursor: pointer;
+  left: 50%;
+  opacity: .2;
+  position: absolute;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%) translateY(-12vmin);
+  transition: opacity 0.3s cubic-bezier(0.55, 0, 0.1, 1);
+  user-select: none;
+  z-index: 10;
+}
+.panel__zoom:hover {
+  opacity: 1;
+}
+.show-all .panel__zoom {
+  pointer-events: none;
+}
+.panel__nav {
+  cursor: pointer;
+  opacity: .5;
+  position: absolute;
+  transition: opacity 0.3s cubic-bezier(0.55, 0, 0.1, 1);
+  user-select: none;
+  will-change: opacity;
+}
+.panel__nav--up {
+  left: 50%;
+  top: 1rem;
+  transform: translateX(-50%);
+}
+.panel__nav--left {
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%) rotate(-90deg) translateX(-100%);
+  transform-origin: top left;
+}
+.panel__nav--left-top {
+  left: 1rem;
+  top: 1rem;
+}
+.panel__nav--left-down {
+  bottom: 1rem;
+  left: 1rem;
+}
+.panel__nav--right {
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%) rotate(90deg) translateX(100%);
+  transform-origin: top right;
+}
+.panel__nav--right-top {
+  right: 1rem;
+  top: 1rem;
+}
+.panel__nav--right-down {
+  bottom: 1rem;
+  right: 1rem;
+}
+.panel__nav--down {
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.panel__nav:hover {
+  opacity: 1;
+}
+.panel__animation-list {
+  font-size: 3.3vmin;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%) translateY(14vmin);
+}
+.panel__animation-list span {
+  cursor: pointer;
+  display: inline-block;
+  opacity: .2;
+  position: relative;
+  transition: opacity 0.3s cubic-bezier(0.55, 0, 0.1, 1);
+  user-select: none;
+}
+.panel__animation-list span:after {
+  border-bottom: .3vmin solid transparent;
+  bottom: 0;
+  content: "";
+  left: -1px;
+  position: absolute;
+  right: 0;
+  transition: border-color 0.3s cubic-bezier(0.55, 0, 0.1, 1);
+  width: 100%;
+}
+.panel__animation-list span.active,
+.panel__animation-list span:hover {
+  opacity: 1;
+}
+.panel__animation-list span.active:after,
+.panel__animation-list span:hover:after {
+  border-color: white;
+}
+</style>
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <title>Panels</title>
+</head>
+
+<body>
+  <div class="site-wrap  ">
+    <div class="panel-wrap animate--none      " style="transform: translateX(0%) translateY(0%);">
+      <!-- Center  -->
+      <div class="panel" data-x-pos="0" data-y-pos="0">
+        <span class="panel__nav panel__nav--up js-up">כפתורים / מחוונים</span>
+        <span class="panel__nav panel__nav--right-top js-up js-right">up/right</span>
+        <span class="panel__nav panel__nav--left-top js-up js-left">אקורדיונים / מפות</span>
+        <span class="panel__nav panel__nav--left js-left">דירוג כוכבים / דפדוף</span>
+        <span class="panel__nav panel__nav--right js-right">תפריטים סמלים / נפתחים</span>
+        <span class="panel__nav panel__nav--right-down js-down js-right">down/right</span>
+        <span class="panel__nav panel__nav--left-down js-down js-left">down/left</span>
+        <span class="panel__nav panel__nav--down js-down">down</span>
+        <span class="panel__zoom js-zoom" style="font-size: xx-large;">הצג הכל</span>
+        <h1>רשתות / לוחות שנה</h1>
+        
+
+        <div class="panel__animation-list">
+          
+          <span class="js-animation active" data-animation="animate--none"></span>
+          <!-- <span class="js-animation" data-animation="animate--shrink">Shrink</span> -->
+          <!-- <span class="js-animation" data-animation="animate--tilt">Tilt</span> -->
+          <!-- <span class="js-animation" data-animation="animate--tilt2">Tilt-2</span> -->
+           
+          <h2>
+            Jesus is the true Messiah!
+           </h2>
+           <br>
+           <br>
+           
+           <h3>
+          (Ps 22:16) For dogs have compassed me: the assembly of the wicked have inclosed me: they pierced my hands and my feet.
+        </h3>
+
+
+
+        </div>
+      </div>
+      <!-- Center -->
+      <!-- Top Header -->
+      <div class="panel" data-x-pos="0" data-y-pos="1">
+        <span class="panel__nav panel__nav--left js-left">אקורדיונים / מפות</span>
+        <span class="panel__nav panel__nav--right js-right">right</span>
+        <span class="panel__nav panel__nav--right-down js-down js-right">תפריטים סמלים / נפתחים</span>
+        <span class="panel__nav panel__nav--left-down js-down js-left">דירוג כוכבים / דפדוף</span>
+        <span class="panel__nav panel__nav--down js-down">רשתות / לוחות שנה</span>
+        <h1>כפתורים / מחוונים</h1>
+        <h2 style="margin: 100px;">
+          (Isa 61:1-2) The Spirit of the Lord GOD is upon me; because the LORD hath anointed me to preach good tidings unto the meek; he hath sent me to bind up the brokenhearted, to proclaim liberty to the captives, and the opening of the prison to them that are bound; 2 To proclaim the acceptable year of the LORD, and the day of vengeance of our God; to comfort all that mourn; 
+        </h2>
+        <h2 style="margin: 100px;">
+          Jesus read these verses in the synagogue and then He told that people that those very words had been fulfilled in Him as He closed the pages. He only read about half of the prophecy because His first advent was the only portion of it that was fulfilled, the second unread half in verse 3 will be fulfilled at His near and rapidly approaching second coming.
+        </h2>
+      </div>
+      <!-- Top Header -->
+      <!-- Up Left -->
+      <div class="panel" data-x-pos="-1" data-y-pos="1">
+        <span class="panel__nav panel__nav--right-down js-down js-right">רשתות / לוחות שנה</span>
+        <span class="panel__nav panel__nav--right js-right">כפתורים / מחוונים</span>
+        <span class="panel__nav panel__nav--down js-down">דירוג כוכבים / דפדוף</span>
+        <h1>אקורדיונים / מפות</h1>
+        <h2 style="margin: 100px;">
+          (Zec 11:12-13) And I said unto them, If ye think good, give me my price; and if not, forbear. So they weighed for my price thirty pieces of silver. 13 And the LORD said unto me, Cast it unto the potter: a goodly price that I was prised at of them. And I took the thirty pieces of silver, and cast them to the potter in the house of the LORD.
+        </h2>
+        <h2 style="margin: 100px;">
+          This verse predicted the betrayal of Yeshua, and it foretold the exact series of events that took place surrounding the cross, Judas, and how Jesus was given up to the Jews to be crucified, and how later Judas went back and threw the blood money back into the temple.
+        </h2>
+      </div>
+      <!-- Up Left -->
+      <!-- Up Right -->
+      <div class="panel" data-x-pos="1" data-y-pos="1">
+        <span class="panel__nav panel__nav--left-down js-down js-left">רשתות / לוחות שנה</span>
+        <span class="panel__nav panel__nav--left js-left">left</span>
+        <span class="panel__nav panel__nav--down js-down">תפריטים סמלים / נפתחים</span>
+        <h1>Isa 7:14-16</h1>
+        <h2 style="margin: 100px;">
+          14 Therefore the Lord himself shall give you a sign; Behold, a virgin shall conceive, and bear a son, and shall call his name Immanuel. 15 Butter and honey shall he eat, that he may know to refuse the evil, and choose the good. 16 For before the child shall know to refuse the evil, and choose the good, the land that thou abhorrest shall be forsaken of both her kings.
+        </h2>
+        <h2 style="margin: 100px;">
+          This is a prophecy about the Messiah, how He would be born and what He would be called. Emmanuel means God with us and that is exactly what Christ did, He was the Word made flesh and He tabernacled among us.
+        </h2>
+      </div>
+      <!-- Up Right -->
+      <!-- Left -->
+      <div class="panel" data-x-pos="-1" data-y-pos="0">
+        <span class="panel__nav panel__nav--up js-up">אקורדיונים / מפות</span>
+        <span class="panel__nav panel__nav--right-top js-up js-right">כפתורים / מחוונים</span>
+        <span class="panel__nav panel__nav--right js-right">רשתות / לוחות שנה</span>
+        <span class="panel__nav panel__nav--right-down js-down js-right">down/right</span>
+        <span class="panel__nav panel__nav--down js-down">down</span>
+        <h1>
+
+   דירוג כוכבים / דפדוף
+</h1>
+<h2 style="margin: 100px;">
+  (Zec 12:10) And I will pour upon the house of David, and upon the inhabitants of Jerusalem, the spirit of grace and of supplications: and they shall look upon me whom they have pierced, and they shall mourn for him, as one mourneth for his only son, and shall be in bitterness for him, as one that is in bitterness for his firstborn.
+</h2>
+<h2 style="margin: 100px;">
+  This is another verse predicting the crucifixion of the Messiah. Every verse that talks about Him being pierced was predicted hundreds of years before crucifixion as a method of death was even thought about, let alone invented and practiced.
+</h2>
+      </div>
+      <!-- Left -->
+      <!-- Down Left -->
+      <div class="panel" data-x-pos="-1" data-y-pos="-1">
+        <span class="panel__nav panel__nav--up js-up">דירוג כוכבים / דפדוף</span>
+        <span class="panel__nav panel__nav--right-top js-up js-right">רשתות / לוחות שנה</span>
+        <span class="panel__nav panel__nav--right js-right">right</span>
+        <h1>Mic 5:2</h1>
+        <h2 style="margin: 100px;">
+          But thou, Beth–lehem Ephratah, though thou be little among the thousands of Judah, yet out of thee shall he come forth unto me that is to be ruler in Israel; whose goings forth have been from of old, from everlasting.
+        </h2>
+        <h2 style="margin: 100px;">
+          This verse foretells the exact location of the Messiahs birth. There was no doubt in anyone's mind where the Messiah was to be born when He arrived. Being from of old, from everlasting is a revelation of God's eternal plan of redemption that was set into place even before the foundation of the world.
+        </h2>
+      </div>
+      <!-- Down Left -->
+      <!-- Down Right -->
+      <div class="panel" data-x-pos="1" data-y-pos="-1">
+        <span class="panel__nav panel__nav--up js-up">תפריטים סמלים / נפתחים</span>
+        <span class="panel__nav panel__nav--left-top js-up js-left">up/left</span>
+        <span class="panel__nav panel__nav--left js-left">left</span>
+        <h1>(Zec 9:9)</h1>
+        <h2 style="margin: 100px;">
+           Rejoice greatly, O daughter of Zion; shout, O daughter of Jerusalem: behold, thy King cometh unto thee: he is just, and having salvation; lowly, and riding upon an ass, and upon a colt the foal of an ass.
+        </h2>
+        <h2 style="margin: 100px;">
+          This verse foretells the triumphal entry of Christ into Jerusalem and it happened just as predicted. He has salvation because there is no other name under heaven by which men may be saved, believe and receive Him as Lord and Savior today!
+        </h2>
+      </div>
+      <!-- Down Right -->
+      <!-- Right -->
+      <div class="panel" data-x-pos="1" data-y-pos="0">
+        <span class="panel__nav panel__nav--up js-up">up</span>
+        <span class="panel__nav panel__nav--left-top js-up js-left">כפתורים / מחוונים</span>
+        <span class="panel__nav panel__nav--left js-left">דירוג כוכבים / דפדוף</span>
+        <span class="panel__nav panel__nav--left-down js-down js-left">down/left</span>
+        <span class="panel__nav panel__nav--down js-down">down</span>
+        <h1>
+תפריטים<br>
+<!-- <h2>סמלים / נפתחים</h2> -->
+<h2 style="margin: 100px;">
+  (Ps 52:13-14)  Behold, my servant shall deal prudently, he shall be exalted and extolled, and be very high. 14 As many were astonied at thee; his visage was so marred more than any man, and his form more than the sons of men: 15 So shall he sprinkle many nations; the kings shall shut their mouths at him: for that which had not been told them shall they see; and that which they had not heard shall they consider.
+</h2>
+
+<h2 style="text-align: center; margin: 100px;">
+  This prophecy about Jesus foretold His exalted state as the Messiah and it also predicted His brutal beating to the point of near death by His adversaries. These verses explain how His blood was shed to cover our sins and redeem us. The truth that is concealed reinforces the Messiahship of Jesus, the very opposite of the intended effect the Jews tried to implement.
+</h2>
+</h1>
+      </div>
+      <!-- Right -->
+      <!-- Down -->
+      <div class="panel" data-x-pos="0" data-y-pos="-1">
+        <span class="panel__nav panel__nav--up js-up">רשתות / לוחות שנה</span>
+        <span class="panel__nav panel__nav--left-top js-up js-left">up/left</span>
+        <span class="panel__nav panel__nav--right-top js-up js-right">up/right</span>
+        <span class="panel__nav panel__nav--left js-left">left</span>
+        <span class="panel__nav panel__nav--right js-right">right</span>
+        <span class="panel__nav panel__nav--down js-down">down</span>
+        <h1>Ps 22</h1>
+
+        <h5 style="margin: 100px;">
+Psalms​​ Chapter 22 
+To the chief Musician upon Aijeleth Shahar, A Psalm of David. 
+1 My God, my God, why hast thou forsaken me? why art thou so far from helping me, and from the words of my roaring? 2 O my God, I cry in the daytime, but thou hearest not; and in the night season, and am not silent. 3 But thou art holy, O thou that inhabitest the praises of Israel. 4 Our fathers trusted in thee: they trusted, and thou didst deliver them. 5 They cried unto thee, and were delivered: they trusted in thee, and were not confounded. 6 But I am a worm, and no man; a reproach of men, and despised of the people. 7 All they that see me laugh me to scorn: they shoot out the lip, they shake the head, saying, 8 He trusted on the LORD that he would deliver him: let him deliver him, seeing he delighted in him. 9 But thou art he that took me out of the womb: thou didst make me hope when I was upon my mother’s breasts. 10 I was cast upon thee from the womb: thou art my God from my mother’s belly. 11 Be not far from me; for trouble is near; for there is none to help. 12 Many bulls have compassed me: strong bulls of Bashan have beset me round. 13 They gaped upon me with their mouths, as a ravening and a roaring lion. 14 I am poured out like water, and all my bones are out of joint: my heart is like wax; it is melted in the midst of my bowels. 15 My strength is dried up like a potsherd; and my tongue cleaveth to my jaws; and thou hast brought me into the dust of death. 16 For dogs have compassed me: the assembly of the wicked have inclosed me: they pierced my hands and my feet. 17 I may tell all my bones: they look and stare upon me. 18 They part my garments among them, and cast lots upon my vesture. 19 But be not thou far from me, O LORD: O my strength, haste thee to help me. 20 Deliver my soul from the sword; my darling from the power of the dog. 21 Save me from the lion’s mouth: for thou hast heard me from the horns of the unicorns. 22 I will declare thy name unto my brethren: in the midst of the congregation will I praise thee. 23 Ye that fear the LORD, praise him; all ye the seed of Jacob, glorify him; and fear him, all ye the seed of Israel. 24 For he hath not despised nor abhorred the affliction of the afflicted; neither hath he hid his face from him; but when he cried unto him, he heard. 25 My praise shall be of thee in the great congregation: I will pay my vows before them that fear him. 26 The meek shall eat and be satisfied: they shall praise the LORD that seek him: your heart shall live for ever. 27 All the ends of the world shall remember and turn unto the LORD: and all the kindreds of the nations shall worship before thee. 28 For the kingdom is the LORD’S: and he is the governor among the nations. 29 All they that be fat upon earth shall eat and worship: all they that go down to the dust shall bow before him: and none can keep alive his own soul. 30 A seed shall serve him; it shall be accounted to the Lord for a generation. 31 They shall come, and shall declare his righteousness unto a people that shall be born, that he hath done this.
+        </h5>
+      </div>
+      <!-- Down -->
+      <!-- Down 2 -->
+      <div class="panel" data-x-pos="0" data-y-pos="-2">
+        <span class="panel__nav panel__nav--up js-up">up</span>
+        <h1>Isa 53</h1>
+        <h4 style="margin: 100px;">
+          Isaiah​​
+Chapter 53
+1 Who hath believed our report? and to whom is the arm of the LORD revealed? 2 For he shall grow up before him as a tender plant, and as a root out of a dry ground: he hath no form nor comeliness; and when we shall see him, there is no beauty that we should desire him. 3 He is despised and rejected of men; a man of sorrows, and acquainted with grief: and we hid as it were our faces from him; he was despised, and we esteemed him not.
+4 ¶ Surely he hath borne our griefs, and carried our sorrows: yet we did esteem him stricken, smitten of God, and afflicted. 5 But he was wounded for our transgressions, he was bruised for our iniquities: the chastisement of our peace was upon him; and with his stripes we are healed. 6 All we like sheep have gone astray; we have turned every one to his own way; and the LORD hath laid on him the iniquity of us all. 7 He was oppressed, and he was afflicted, yet he opened not his mouth: he is brought as a lamb to the slaughter, and as a sheep before her shearers is dumb, so he openeth not his mouth. 8 He was taken from prison and from judgment: and who shall declare his generation? for he was cut off out of the land of the living: for the transgression of my people was he stricken. 9 And he made his grave with the wicked, and with the rich in his death; because he had done no violence, neither was any deceit in his mouth.
+10 ¶ Yet it pleased the LORD to bruise him; he hath put him to grief: when thou shalt make his soul an offering for sin, he shall see his seed, he shall prolong his days, and the pleasure of the LORD shall prosper in his hand. 11 He shall see of the travail of his soul, and shall be satisfied: by his knowledge shall my righteous servant justify many; for he shall bear their iniquities. 12 Therefore will I divide him a portion with the great, and he shall divide the spoil with the strong; because he hath poured out his soul unto death: and he was numbered with the transgressors; and he bare the sin of many, and made intercession for the transgressors.
+        </h4>
+      </div>
+      <!-- Down 2 -->
+
+    </div>
+  </div>
+  <script src="./Anlominus_LY_v1.0.0_files/index.js"></script>
+
+
+
+
+</body></html>
+<!-- partial -->
+  <script>
+    // Global
+var win = window,
+    doc = document;
+
+// Global Functions
+function hasClass(el, cls) {
+  return el.className.match(new RegExp('(\\s|^)'+cls+'(\\s|$)'));
+};
+function addClass(el, cls) {
+  if (!this.hasClass(el, cls)) {
+    el.className += " " + cls;
+  }
+};
+function removeClass(el, cls) {
+  if (this.hasClass(el, cls)) {
+
+    var reg = new RegExp('(\\s|^)'+cls+'(\\s|$)');
+    el.className = el.className.replace(reg,' ');
+  }
+};
+
+// Elements
+
+var site = doc.getElementsByClassName('site-wrap')[0];
+var wrap = doc.getElementsByClassName('panel-wrap')[0];
+
+var panel = doc.getElementsByClassName('panel');
+
+var zoom = doc.getElementsByClassName('js-zoom');
+
+var nav_up = doc.getElementsByClassName('js-up'),
+    nav_left = doc.getElementsByClassName('js-left'),
+    nav_right = doc.getElementsByClassName('js-right'),
+    nav_down = doc.getElementsByClassName('js-down');
+
+var animation = doc.getElementsByClassName('js-animation');
+
+// Tracking
+var pos_x = 0,
+    pos_y = 0;
+
+function setPos(){
+  wrap.style.transform = 'translateX(' + pos_x + '00%) translateY(' + pos_y + '00%)';
+  setTimeout( function(){
+    removeClass(wrap, 'animate');
+  }, 600);
+}
+
+setPos();
+
+function moveUp(){
+  addClass(wrap, 'animate');
+  pos_y++;
+  setPos();
+}
+
+function moveLeft(){
+  addClass(wrap, 'animate');
+  pos_x++;
+  setPos();
+}
+
+function moveRight(){
+  addClass(wrap, 'animate');
+  pos_x--;
+  setPos();
+}
+
+function moveDown(){
+  addClass(wrap, 'animate');
+  pos_y--;
+  setPos();
+}
+
+for (var x = 0; x < nav_up.length; x++){
+  nav_up[x].addEventListener('click', moveUp);
+}
+
+for (var x = 0; x < nav_left.length; x++){
+  nav_left[x].addEventListener('click', moveLeft);
+}
+
+for (var x = 0; x < nav_right.length; x++){
+  nav_right[x].addEventListener('click', moveRight);
+}
+
+for (var x = 0; x < nav_down.length; x++){
+  nav_down[x].addEventListener('click', moveDown);
+}
+
+// Animations
+
+for (var x = 0; x < animation.length; x++){
+  ( function(_x){
+    animation[_x].addEventListener('click', function(){
+      toggleAnimation(_x);
+    });
+  })(x);
+}
+
+function toggleAnimation(i){
+  for (var x = 0; x < animation.length; x++){
+    if (i === x){
+      addClass(animation[x], 'active');
+      addClass(wrap, animation[x].getAttribute('data-animation'));
+    } else {
+      removeClass(animation[x], 'active');
+      removeClass(wrap, animation[x].getAttribute('data-animation'));
+    }
+  }
+
+}
+
+for (var x = 0; x < zoom.length; x++){
+  zoom[x].addEventListener('click', zoomOut);
+}
+
+function zoomOut(e){
+  e.stopPropagation();
+  addClass(site, 'show-all');
+  for (var x = 0; x < panel.length; x++){
+    ( function(_x){
+      panel[_x].addEventListener('click', setPanelAndZoom);
+    })(x);
+  }
+}
+
+function setPanelAndZoom(e){
+  pos_x = -e.target.getAttribute('data-x-pos'),
+  pos_y = e.target.getAttribute('data-y-pos');
+  setPos();
+  zoomIn();
+}
+
+
+function zoomIn(){
+  for (var x = 0; x < panel.length; x++){
+    panel[x].removeEventListener('click', setPanelAndZoom);
+  }
+  removeClass(site, 'show-all');
+}
+  </script>
+
+</body>
+</html>
